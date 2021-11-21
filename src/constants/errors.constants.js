@@ -1,0 +1,5 @@
+export const UNAVAILABLE_LANGUAGE = 'UNAVAILABLE_LANGUAGE'
+
+export default {
+  UNAVAILABLE_LANGUAGE
+}

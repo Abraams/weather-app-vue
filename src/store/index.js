@@ -7,7 +7,7 @@ import rootModules from './modules'
 Vue.use(Vuex)
 
 const rootState = {
-
+  language: 'en'
 }
 
 export default new Vuex.Store({
