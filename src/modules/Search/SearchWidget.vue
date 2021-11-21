@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { debounce } from 'lodash'
+import { debounce } from 'lodash-es'
 import { mapState } from 'vuex'
 import AppStore from '@/store'
 import searchModule from './store'
