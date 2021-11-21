@@ -19,7 +19,8 @@ const state = () => {
     wind: {
       speed: null,
       deg: null
-    }
+    },
+    dataFetching: true
   }
 }
 

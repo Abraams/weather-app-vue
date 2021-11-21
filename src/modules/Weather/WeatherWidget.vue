@@ -34,11 +34,6 @@ import weatherModule from './store'
 
 export default {
   name: 'WeatherWidget',
-  data () {
-    return {
-      isLoading: true
-    }
-  },
   beforeCreate () {
     if (!AppStore.hasModule('weather')) {
       AppStore.registerModule('weather', weatherModule)
@@ -46,6 +41,7 @@ export default {
   },
   computed: {
     ...mapState({
+      isLoading: s => s.weather.dataFetching,
       city: s => s.weather.name,
       main: s => s.weather.main,
       weather: s => s.weather.weather,
@@ -57,18 +53,17 @@ export default {
   },
   methods: {
     async initWidgetData () {
-      this.isLoading = true
       try {
         await this.$store.dispatch('weather/initModule')
       } catch (error) {
         console.error(error)
-      } finally {
-        this.isLoading = false
       }
     }
   },
-  mounted () {
-    setTimeout(this.initWidgetData, 350)
+  async mounted () {
+    console.time()
+    await this.initWidgetData()
+    console.timeEnd()
   }
 
 }

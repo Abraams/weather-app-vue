@@ -1,6 +1,7 @@
 import { apiClient } from '@/api/apiClient'
+import { HoldResult } from '@/decorators/HoldResult'
 
-export const getWeather = (params) => {
+const $getWeather = (params) => {
   return apiClient.get(`${process.env.VUE_APP_WEATHER_API}data/2.5/weather`, {
     params: {
       ...params,
@@ -9,6 +10,9 @@ export const getWeather = (params) => {
     }
   })
 }
+
+// Timeout исключительно для красоты :)
+export const getWeather = HoldResult($getWeather, 500)
 
 export default {
   get: getWeather
