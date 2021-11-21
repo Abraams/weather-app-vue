@@ -7,7 +7,7 @@ module.exports = {
   extends: [
     'plugin:vue/essential',
     'plugin:vue/strongly-recommended',
-    '@vue/standard',
+    '@vue/standard'
   ],
   parserOptions: {
     ecmaVersion: 2020
@@ -15,10 +15,10 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'quotes': ['error', 'single'],
-    'semi': ['error', 'never'],
-    'indent': ['error', 2],
+    quotes: ['error', 'single'],
+    semi: ['error', 'never'],
+    indent: ['error', 2],
     'no-multi-spaces': ['error'],
-    'camelcase': 'off'
+    camelcase: 'off'
   }
 }

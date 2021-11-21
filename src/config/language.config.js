@@ -1,0 +1,1 @@
+export const DEFAULT_LANGUAGE = process.env.VUE_APP_DEFAULT_LANGUAGE

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { DEFAULT_LANGUAGE } from '@/config/language.config'
 import rootMutations from './mutations'
 import rootActions from './actions'
 import rootModules from './modules'
@@ -7,7 +8,7 @@ import rootModules from './modules'
 Vue.use(Vuex)
 
 const rootState = {
-  language: 'en'
+  language: DEFAULT_LANGUAGE
 }
 
 export default new Vuex.Store({
