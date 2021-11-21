@@ -20,6 +20,7 @@
 
 <script>
 import { debounce } from 'lodash'
+import { mapState } from 'vuex'
 import AppStore from '@/store'
 import searchModule from './store'
 
@@ -28,6 +29,18 @@ export default {
   data () {
     return {
       query: ''
+    }
+  },
+  computed: {
+    ...mapState({
+      storageQuery: s => s.search.query
+    })
+  },
+  watch: {
+    storageQuery: {
+      handler () {
+        this.query = this.storageQuery
+      }
     }
   },
   beforeCreate () {

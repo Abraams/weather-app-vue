@@ -9,7 +9,11 @@ const actions = {
     commit('setQuery', payload)
 
     if (AppStore.hasModule('weather')) {
-      dispatch('weather/fetchData', { city: state.query }, { root: true })
+      await dispatch('weather/fetchData', { city: state.query }, { root: true })
+    }
+
+    if (AppStore.hasModule('history')) {
+      await dispatch('history/addHistoryItem', { query: state.query }, { root: true })
     }
   }
 }
