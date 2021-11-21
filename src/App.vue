@@ -1,20 +1,22 @@
 <template>
   <div id="app">
-    <img
-      alt="Vue logo"
-      src="./assets/logo.png"
-    >
+    <SearchWidget />
     <WeatherWidget />
+    <HistoryWidget />
   </div>
 </template>
 
 <script>
-import WeatherWidget from '@/modules/Weather/WeatherWidget.vue'
+const WeatherWidget = () => import(/* webpackChunkName: "WeatherWidget" */ '@/modules/Weather/WeatherWidget.vue')
+const SearchWidget = () => import(/* webpackChunkName: "SearchWidget" */ '@/modules/Search/SearchWidget.vue')
+const HistoryWidget = () => import(/* webpackChunkName: "HistoryWidget" */ '@/modules/History/HistoryWidget.vue')
 
 export default {
   name: 'App',
   components: {
-    WeatherWidget
+    WeatherWidget,
+    HistoryWidget,
+    SearchWidget
   },
   mounted () {
     this.$store.dispatch('init')
