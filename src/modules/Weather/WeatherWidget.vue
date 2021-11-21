@@ -61,9 +61,7 @@ export default {
     }
   },
   async mounted () {
-    console.time()
     await this.initWidgetData()
-    console.timeEnd()
   }
 
 }
