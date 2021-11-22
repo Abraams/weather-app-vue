@@ -14,7 +14,12 @@
         <v-toolbar-title
           @click="isSearchVisible = !isSearchVisible"
         >
-          {{ currentCity }}
+          <v-fade-transition>
+            <span v-if="currentCity">
+              {{ currentCity }}
+
+            </span>
+          </v-fade-transition>
         </v-toolbar-title>
         <v-spacer />
       </template>
@@ -25,8 +30,8 @@
         @input:visible="isSearchVisible = $event"
       />
 
-      <v-fade-transition>
-        <div>
+      <v-fade-transition leave-absolute>
+        <div v-if="!isSearchVisible">
           <v-btn
             key="show-search-btn"
             icon
@@ -37,17 +42,7 @@
         </div>
       </v-fade-transition>
 
-      <v-slide-x-reverse-transition
-        hide-on-leave
-        leave-absolute
-      >
-        <div
-          key="TheLanguageSelect"
-          v-if="!isSearchVisible"
-        >
-          <TheLanguageSelect />
-        </div>
-      </v-slide-x-reverse-transition>
+      <TheLanguageSelect />
     </v-toolbar>
   </div>
 </template>
