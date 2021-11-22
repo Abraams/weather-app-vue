@@ -3,17 +3,14 @@
     <div v-if="isLoading">
       loading...
     </div>
-    <div v-else>
-      <div>
-        {{ city }}
-      </div>
+    <div v-else-if="city">
       <div>
         <img :src="icon">
       </div>
       <div>
         {{ weather.description }}
       </div>
-      <hr>
+      <v-divider />
       <div>
         feels like: {{ main.feels_like }}
       </div>
@@ -23,6 +20,9 @@
       <div>
         wind speed: {{ wind.speed }}
       </div>
+    </div>
+    <div v-else>
+      Не удалось получить данные по вашему городу
     </div>
   </div>
 </template>
@@ -45,10 +45,18 @@ export default {
       city: s => s.weather.name,
       main: s => s.weather.main,
       weather: s => s.weather.weather,
-      wind: s => s.weather.wind
+      wind: s => s.weather.wind,
+      lang: s => s.language
     }),
     icon () {
       return `https://openweathermap.org/img/wn/${this.weather.icon}@2x.png`
+    }
+  },
+  watch: {
+    lang: {
+      handler () {
+        this.$store.dispatch('weather/refreshData')
+      }
     }
   },
   methods: {

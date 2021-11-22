@@ -1,9 +1,9 @@
 export const APP_LANGUAGES = {
-  ru: 'ru',
-  en: 'en'
+  ru: 'ru'
+  // en: 'en'
 }
 
-const formatLang = (lang) => {
+export const formatLanguage = (lang) => {
   return lang.toLowerCase().split('-')[0]
 }
 
@@ -12,16 +12,17 @@ export const isLanguageAvailable = (lang) => {
     return false
   }
 
-  const formattedLang = formatLang(lang)
-
-  return APP_LANGUAGES[formattedLang] || Object.values(APP_LANGUAGES).includes(formattedLang)
+  return Object.values(APP_LANGUAGES).includes(lang)
 }
 
 export const getUserLanguage = () => {
-  return isLanguageAvailable(navigator.language) || APP_LANGUAGES.en
+  const lang = formatLanguage(navigator.language)
+
+  return (isLanguageAvailable(lang) && lang) || APP_LANGUAGES.en
 }
 
 export default {
   APP_LANGUAGES,
+  formatLanguage,
   isLanguageAvailable
 }

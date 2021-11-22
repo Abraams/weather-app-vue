@@ -1,27 +1,33 @@
 <template>
-  <v-app id="app">
+  <DefaultLayout>
     <v-container>
-      <SearchWidget />
       <WeatherWidget />
       <HistoryWidget />
     </v-container>
-  </v-app>
+  </DefaultLayout>
 </template>
 
 <script>
+import DefaultLayout from '@/layouts/Default.vue'
+
 const WeatherWidget = () => import(/* webpackChunkName: "WeatherWidget" */ '@/modules/Weather/WeatherWidget.vue')
-const SearchWidget = () => import(/* webpackChunkName: "SearchWidget" */ '@/modules/Search/SearchWidget.vue')
 const HistoryWidget = () => import(/* webpackChunkName: "HistoryWidget" */ '@/modules/History/HistoryWidget.vue')
 
 export default {
   name: 'App',
   components: {
+    DefaultLayout,
     WeatherWidget,
-    HistoryWidget,
-    SearchWidget
+    HistoryWidget
+  },
+  methods: {
+    initAppLanguage () {
+      this.$store.dispatch('setUserLanguage')
+      this.$vuetify.lang.current = this.$store.state.language
+    }
   },
   mounted () {
-    this.$store.dispatch('init')
+    this.initAppLanguage()
   }
 }
 </script>

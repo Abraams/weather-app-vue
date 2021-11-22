@@ -4,7 +4,7 @@
   </div>
   <div v-else>
     <template v-if="history && history.length">
-      <hr>
+      <v-divider />
       <div
         v-for="item in history"
         :key="item.id"
@@ -13,7 +13,7 @@
         {{ item.name }}
       </div>
     </template>
-    <hr>
+    <v-divider />
   </div>
 </template>
 

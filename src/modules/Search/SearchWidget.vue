@@ -1,21 +1,18 @@
 <template>
-  <div>
-    <hr>
-    <form
-      @submit.prevent="onFormSubmit"
-      @keypress.enter="onFormSubmit"
-    >
-      <input
-        type="text"
-        v-model="query"
-      >
-      <input
-        type="submit"
-        value="Поиск"
-      >
-    </form>
-    <hr>
-  </div>
+  <v-text-field
+    v-if="inputVisible"
+    ref="search-input"
+    v-model="query"
+    color="black"
+    rounded
+    :placeholder="placeholder"
+    autofocus
+    single-line
+    hide-details
+    @focus="onFocus"
+    @blur="onBlur"
+    @keypress.enter="onFormSubmit"
+  />
 </template>
 
 <script>
@@ -26,6 +23,16 @@ import searchModule from './store'
 
 export default {
   name: 'SearchWidget',
+  props: {
+    inputVisible: {
+      type: Boolean,
+      default: false
+    },
+    placeholder: {
+      type: String,
+      default: 'Введите название города'
+    }
+  },
   data () {
     return {
       query: ''
@@ -52,7 +59,22 @@ export default {
     this.onFormSubmit = debounce(this.submitForm, 200)
   },
   methods: {
+    onFocus () {
+      this.query = ''
+    },
+    onBlur () {
+      this.setInputVisible(false)
+      this.submitForm()
+    },
+    setInputVisible (value) {
+      this.$emit('input:visible', value)
+    },
     submitForm () {
+      if (!this.query) {
+        return
+      }
+
+      this.$refs['search-input'].blur()
       this.$store.dispatch('search/setQuery', { query: this.query })
     },
     onFormSubmit () {}

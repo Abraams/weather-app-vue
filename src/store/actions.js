@@ -1,10 +1,12 @@
-import { isLanguageAvailable, getUserLanguage } from '@/services/language.service'
+import { isLanguageAvailable, formatLanguage, getUserLanguage } from '@/services/language.service'
 import ERRORS from '@/constants/errors.constants'
 
 const actions = {
   setLanguage ({ commit }, { lang }) {
-    if (isLanguageAvailable(lang)) {
-      commit('setLanguage', { lang })
+    const formattedLang = formatLanguage(lang)
+
+    if (isLanguageAvailable(formattedLang)) {
+      commit('setLanguage', { lang: formattedLang })
       return
     }
 
@@ -13,9 +15,6 @@ const actions = {
   setUserLanguage ({ dispatch }) {
     const lang = getUserLanguage()
     dispatch('setLanguage', { lang })
-  },
-  async init ({ dispatch }) {
-    await dispatch('setUserLanguage')
   }
 }
 
