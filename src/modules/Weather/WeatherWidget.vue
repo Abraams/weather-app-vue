@@ -29,16 +29,9 @@
 
 <script>
 import { mapState } from 'vuex'
-import AppStore from '@/store'
-import weatherModule from './store'
 
 export default {
   name: 'WeatherWidget',
-  beforeCreate () {
-    if (!AppStore.hasModule('weather')) {
-      AppStore.registerModule('weather', weatherModule)
-    }
-  },
   computed: {
     ...mapState({
       isLoading: s => s.weather.dataFetching,

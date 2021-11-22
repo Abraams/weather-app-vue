@@ -44,6 +44,14 @@
 
       <TheLanguageSelect />
     </v-toolbar>
+    <v-expand-transition hide-on-leave>
+      <v-progress-linear
+        v-if="isAppLoading"
+        indeterminate
+        absolute
+        color="primary"
+      />
+    </v-expand-transition>
   </div>
 </template>
 
@@ -65,7 +73,8 @@ export default {
   },
   computed: {
     ...mapState({
-      currentCity: s => s.search?.query || s.weather?.name || undefined
+      currentCity: s => s.search?.query || s.weather?.name || undefined,
+      isAppLoading: s => s.loading
     })
   }
 }

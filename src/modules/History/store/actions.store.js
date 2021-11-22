@@ -1,4 +1,3 @@
-import AppStore from '@/store'
 import historyApi from '../api/history.api'
 
 const actions = {
@@ -20,11 +19,7 @@ const actions = {
   async selectHistoryItem ({ dispatch }, payload) {
     const { name } = payload
 
-    if (AppStore.hasModule('search')) {
-      await dispatch('search/setQuery', { query: name }, { root: true })
-    } else if (AppStore.hasModule('weather')) {
-      await dispatch('weather/fetchData', { city: name }, { root: true })
-    }
+    await dispatch('search/setQuery', { query: name }, { root: true })
   },
 
   async initModule ({ commit }) {

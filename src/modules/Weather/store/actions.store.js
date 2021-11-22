@@ -1,42 +1,30 @@
-import AppStore from '@/store'
 import { getWeather } from '../api/weather.api'
 import { getCurrentPosition } from '@/services/geolocation.service'
 
 const actions = {
-  async _$fetchDataByCityName ({ commit, rootState }, payload) {
-    commit('setDataFetching', { value: true })
+  async _$fetchData ({ commit, dispatch, rootState }, payload) {
+    try {
+      dispatch('setLoading', { value: true }, { root: true })
+      commit('setDataFetching', { value: true })
 
-    const { city: q } = payload
-    const data = (await getWeather({ q, lang: rootState.language })).data
-
-    commit('setWeather', data)
-    commit('setDataFetching', { value: false })
-  },
-
-  async _$fetchDataByCoords ({ commit, rootState }, payload) {
-    commit('setDataFetching', { value: false })
-
-    const { lat, lon } = payload
-    const data = (await getWeather({ lat, lon, lang: rootState.language })).data
-
-    commit('setWeather', data)
-    commit('setDataFetching', { value: false })
+      const data = (await getWeather({ ...payload, lang: rootState.language })).data
+      commit('setWeather', data)
+    } finally {
+      commit('setDataFetching', { value: false })
+      dispatch('setLoading', { value: false }, { root: true })
+    }
   },
 
   async fetchData ({ dispatch }, payload) {
     if (payload.city) {
-      await dispatch('_$fetchDataByCityName', payload)
+      await dispatch('_$fetchData', { q: payload.city })
     } else if (payload.lat && payload.lon) {
-      await dispatch('_$fetchDataByCoords', payload)
+      await dispatch('_$fetchData', { lat: payload.lat, lon: payload.lon })
     }
   },
 
   async refreshData ({ state, dispatch, rootState }) {
-    let city = state.name
-
-    if (AppStore.hasModule('search')) {
-      city = rootState.search.query || state.name
-    }
+    const city = rootState.search.query || state.name
 
     await dispatch('fetchData', { city })
   },

@@ -12,6 +12,9 @@ const actions = {
 
     throw new Error(ERRORS.UNAVAILABLE_LANGUAGE)
   },
+  setLoading ({ commit }, payload) {
+    commit('setLoading', payload)
+  },
   setUserLanguage ({ dispatch }) {
     const lang = getUserLanguage()
     dispatch('setLanguage', { lang })

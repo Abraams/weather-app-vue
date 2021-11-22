@@ -18,8 +18,6 @@
 <script>
 import { debounce } from 'lodash-es'
 import { mapState } from 'vuex'
-import AppStore from '@/store'
-import searchModule from './store'
 
 export default {
   name: 'SearchWidget',
@@ -48,11 +46,6 @@ export default {
       handler () {
         this.query = this.storageQuery
       }
-    }
-  },
-  beforeCreate () {
-    if (!AppStore.hasModule('search')) {
-      AppStore.registerModule('search', searchModule)
     }
   },
   created () {

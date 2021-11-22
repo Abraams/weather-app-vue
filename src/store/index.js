@@ -8,7 +8,8 @@ import rootModules from './modules'
 Vue.use(Vuex)
 
 const rootState = {
-  language: DEFAULT_LANGUAGE
+  language: DEFAULT_LANGUAGE,
+  loading: false
 }
 
 export default new Vuex.Store({

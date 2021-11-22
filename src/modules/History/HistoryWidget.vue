@@ -19,16 +19,9 @@
 
 <script>
 import { mapState } from 'vuex'
-import AppStore from '@/store'
-import historyModule from './store/index'
 
 export default {
   name: 'HistoryModule',
-  beforeCreate () {
-    if (!AppStore.hasModule('history')) {
-      AppStore.registerModule('history', historyModule)
-    }
-  },
   computed: {
     ...mapState({
       isLoading: s => s.history.dataFetching,
