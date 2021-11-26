@@ -20,7 +20,7 @@ const state = () => {
       speed: null,
       deg: null
     },
-    dataFetching: true
+    dataFetching: false
   }
 }
 

@@ -30,19 +30,7 @@
         @input:visible="isSearchVisible = $event"
       />
 
-      <v-fade-transition leave-absolute>
-        <div v-if="!isSearchVisible">
-          <v-btn
-            key="show-search-btn"
-            icon
-            @click="isSearchVisible = !isSearchVisible"
-          >
-            <v-icon>mdi-magnify</v-icon>
-          </v-btn>
-        </div>
-      </v-fade-transition>
-
-      <TheLanguageSelect />
+      <TheLanguageSelect v-if="$options.languages.length > 1" />
     </v-toolbar>
     <v-expand-transition hide-on-leave>
       <v-progress-linear
@@ -57,8 +45,10 @@
 
 <script>
 import { mapState } from 'vuex'
-import SearchWidget from '@/modules/Search/SearchWidget.vue'
 import TheLanguageSelect from '@/components/TheLanguageSelect.vue'
+import { APP_LANGUAGES } from '@/services/language.service'
+
+const SearchWidget = () => import(/* webpackChunkName: "SearchWidget" */ '@/modules/Search/SearchWidget.vue')
 
 export default {
   name: 'TheAppBar',
@@ -76,7 +66,8 @@ export default {
       currentCity: s => s.search?.query || s.weather?.name || undefined,
       isAppLoading: s => s.loading
     })
-  }
+  },
+  languages: Object.values(APP_LANGUAGES)
 }
 </script>
 

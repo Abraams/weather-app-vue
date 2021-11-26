@@ -1,18 +1,33 @@
 <template>
-  <v-text-field
-    v-if="inputVisible"
-    ref="search-input"
-    v-model="query"
-    color="black"
-    rounded
-    :placeholder="placeholder"
-    autofocus
-    single-line
-    hide-details
-    @focus="onFocus"
-    @blur="onBlur"
-    @keypress.enter="onFormSubmit"
-  />
+  <div
+    class="d-flex align-center justify-space-between"
+    :style="{
+      width: inputVisible ? '100%' : 'auto'
+    }"
+  >
+    <v-text-field
+      v-if="inputVisible"
+      ref="search-input"
+      v-model="query"
+      color="black"
+      rounded
+      :placeholder="placeholder"
+      autofocus
+      single-line
+      hide-details
+      @focus="onFocus"
+      @blur="onBlur"
+      @keypress.enter="onFormSubmit"
+    />
+
+    <v-btn
+      key="show-search-btn"
+      icon
+      @click="onSearchBtnClick"
+    >
+      <v-icon>mdi-magnify</v-icon>
+    </v-btn>
+  </div>
 </template>
 
 <script>
@@ -52,25 +67,35 @@ export default {
     this.onFormSubmit = debounce(this.submitForm, 200)
   },
   methods: {
+    setInputVisible (value) {
+      this.$emit('input:visible', value)
+    },
     onFocus () {
       this.query = ''
     },
     onBlur () {
-      this.setInputVisible(false)
-      this.submitForm()
+      if (!this.query) {
+        this.setInputVisible(false)
+      }
     },
-    setInputVisible (value) {
-      this.$emit('input:visible', value)
-    },
-    submitForm () {
+    onFormSubmit () {},
+    async submitForm () {
       if (!this.query) {
         return
       }
 
-      this.$refs['search-input'].blur()
-      this.$store.dispatch('search/setQuery', { query: this.query })
+      await this.$store.dispatch('search/setQuery', { query: this.query })
+      this.setInputVisible(false)
     },
-    onFormSubmit () {}
+    onSearchBtnClick () {
+      if (this.inputVisible) {
+        this.submitForm()
+
+        return
+      }
+
+      this.setInputVisible(true)
+    }
   }
 }
 </script>

@@ -4,22 +4,36 @@
       loading...
     </div>
     <div v-else-if="city">
-      <div>
-        <img :src="icon">
-      </div>
-      <div>
-        {{ weather.description }}
-      </div>
-      <v-divider />
-      <div>
-        feels like: {{ main.feels_like }}
-      </div>
-      <div>
-        temperature: {{ main.temp }} (min: {{ main.temp_min }} / max: {{ main.temp_max }})
-      </div>
-      <div>
-        wind speed: {{ wind.speed }}
-      </div>
+      <v-row no-gutters>
+        <v-col cols="12">
+          <div class="d-flex justify-center align-center">
+            <span class="text-h2">
+              {{ formattedTemperature(main.temp) }}&deg;
+            </span>
+            <v-img
+              class="ml-2"
+              max-width="100"
+              max-height="100"
+              :src="weatherIcon"
+            />
+          </div>
+        </v-col>
+      </v-row>
+      <v-row
+        align="center"
+        no-gutters
+      >
+        <v-col cols="12">
+          <div class="subtitle-1 text-center">
+            {{ weather.description }}
+          </div>
+        </v-col>
+        <v-col cols="12">
+          <div class="body-2 text-center">
+            Ощущается как: {{ formattedTemperature(main.feels_like) }}&deg;
+          </div>
+        </v-col>
+      </v-row>
     </div>
     <div v-else>
       Не удалось получить данные по вашему городу
@@ -41,8 +55,11 @@ export default {
       wind: s => s.weather.wind,
       lang: s => s.language
     }),
-    icon () {
+    weatherIcon () {
       return `https://openweathermap.org/img/wn/${this.weather.icon}@2x.png`
+    },
+    isDataEmpty () {
+      return !this.isLoading && !this.city
     }
   },
   watch: {
@@ -59,6 +76,10 @@ export default {
       } catch (error) {
         console.error(error)
       }
+    },
+    formattedTemperature (temp) {
+      const formatted = Math.round(temp)
+      return formatted >= 0 ? `+${formatted}` : formatted
     }
   },
   async mounted () {
