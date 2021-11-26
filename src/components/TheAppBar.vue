@@ -8,7 +8,7 @@
       elevation="1"
       tile
     >
-      <v-app-bar-nav-icon />
+      <v-app-bar-nav-icon @click="isDrawerVisible = !isDrawerVisible" />
 
       <template v-if="!isSearchVisible">
         <v-toolbar-title
@@ -17,7 +17,6 @@
           <v-fade-transition>
             <span v-if="currentCity">
               {{ currentCity }}
-
             </span>
           </v-fade-transition>
         </v-toolbar-title>
@@ -40,6 +39,14 @@
         color="primary"
       />
     </v-expand-transition>
+
+    <v-navigation-drawer
+      v-model="isDrawerVisible"
+      app
+      temporary
+    >
+      <HistoryWidget @item:select="isDrawerVisible = false" />
+    </v-navigation-drawer>
   </div>
 </template>
 
@@ -49,16 +56,19 @@ import TheLanguageSelect from '@/components/TheLanguageSelect.vue'
 import { APP_LANGUAGES } from '@/services/language.service'
 
 const SearchWidget = () => import(/* webpackChunkName: "SearchWidget" */ '@/modules/Search/SearchWidget.vue')
+const HistoryWidget = () => import(/* webpackChunkName: "HistoryWidget" */ '@/modules/History/HistoryWidget.vue')
 
 export default {
   name: 'TheAppBar',
   components: {
     SearchWidget,
+    HistoryWidget,
     TheLanguageSelect
   },
   data () {
     return {
-      isSearchVisible: false
+      isSearchVisible: false,
+      isDrawerVisible: false
     }
   },
   computed: {

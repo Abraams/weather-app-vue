@@ -2,19 +2,21 @@
   <div v-if="isLoading">
     Загрузка....
   </div>
-  <div v-else>
-    <template v-if="history && history.length">
-      <v-divider />
-      <div
+  <v-list
+    v-else-if="history && history.length"
+    nav
+    dense
+  >
+    <v-list-item-group>
+      <v-list-item
         v-for="item in history"
         :key="item.id"
         @click="onItemClick(item)"
       >
-        {{ item.name }}
-      </div>
-    </template>
-    <v-divider />
-  </div>
+        <v-list-item-title>{{ item.name }}</v-list-item-title>
+      </v-list-item>
+    </v-list-item-group>
+  </v-list>
 </template>
 
 <script>
@@ -35,8 +37,12 @@ export default {
     async initWidget () {
       await this.$store.dispatch('history/initModule')
     },
-    onItemClick ({ name }) {
+    selectItem ({ name }) {
       this.$store.dispatch('history/selectHistoryItem', { name })
+    },
+    onItemClick (item) {
+      this.selectItem(item)
+      this.$emit('item:select', item)
     }
   }
 }
