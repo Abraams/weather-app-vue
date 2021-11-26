@@ -8,12 +8,10 @@
       elevation="1"
       tile
     >
-      <v-app-bar-nav-icon @click="isDrawerVisible = !isDrawerVisible" />
+      <v-app-bar-nav-icon @click="setNavigationVisible(true)" />
 
       <template v-if="!isSearchVisible">
-        <v-toolbar-title
-          @click="isSearchVisible = !isSearchVisible"
-        >
+        <v-toolbar-title @click="setSearchVisible(true)">
           <v-fade-transition>
             <span v-if="currentCity">
               {{ currentCity }}
@@ -26,7 +24,7 @@
       <SearchWidget
         :input-visible="isSearchVisible"
         :placeholder="currentCity"
-        @input:visible="isSearchVisible = $event"
+        @input:visible="setSearchVisible"
       />
 
       <TheLanguageSelect v-if="$options.languages.length > 1" />
@@ -39,14 +37,6 @@
         color="primary"
       />
     </v-expand-transition>
-
-    <v-navigation-drawer
-      v-model="isDrawerVisible"
-      app
-      temporary
-    >
-      <HistoryWidget @item:select="isDrawerVisible = false" />
-    </v-navigation-drawer>
   </div>
 </template>
 
@@ -56,19 +46,16 @@ import TheLanguageSelect from '@/components/TheLanguageSelect.vue'
 import { APP_LANGUAGES } from '@/services/language.service'
 
 const SearchWidget = () => import(/* webpackChunkName: "SearchWidget" */ '@/modules/Search/SearchWidget.vue')
-const HistoryWidget = () => import(/* webpackChunkName: "HistoryWidget" */ '@/modules/History/HistoryWidget.vue')
 
 export default {
   name: 'TheAppBar',
   components: {
     SearchWidget,
-    HistoryWidget,
     TheLanguageSelect
   },
   data () {
     return {
-      isSearchVisible: false,
-      isDrawerVisible: false
+      isSearchVisible: false
     }
   },
   computed: {
@@ -77,15 +64,14 @@ export default {
       isAppLoading: s => s.loading
     })
   },
+  methods: {
+    setNavigationVisible (value) {
+      this.$emit('navigation:toggle', value)
+    },
+    setSearchVisible (value) {
+      this.isSearchVisible = value
+    }
+  },
   languages: Object.values(APP_LANGUAGES)
 }
 </script>
-
-<style>
-#the-app-bar .v-toolbar__extension {
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-  padding-bottom: 0 !important;
-}
-
-</style>
