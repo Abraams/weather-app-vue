@@ -14,6 +14,6 @@ git add -A
 git commit -m 'deploy'
 
 
-git push -f git@github.com:<Abraams>/<weather-app-vue>.git main:prod
+git push -f git@github.com:abraams/weather-app-vue.git main:prod
 
 cd -
