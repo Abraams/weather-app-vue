@@ -1,8 +1,6 @@
 <template>
   <DefaultLayout>
-    <v-container>
-      <WeatherWidget />
-    </v-container>
+    <WeatherWidget />
   </DefaultLayout>
 </template>
 

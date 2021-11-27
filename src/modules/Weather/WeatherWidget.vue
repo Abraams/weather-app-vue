@@ -1,48 +1,54 @@
 <template>
-  <div>
-    <div v-if="isLoading">
-      loading...
-    </div>
-    <div v-else-if="city">
-      <v-row no-gutters>
-        <v-col cols="12">
-          <div class="d-flex justify-center align-center">
-            <span class="text-h2">
-              {{ formattedTemperature(main.temp) }}&deg;
-            </span>
-            <v-img
-              class="ml-2"
-              max-width="100"
-              max-height="100"
-              :src="weatherIcon"
-            />
-          </div>
-        </v-col>
-      </v-row>
-      <v-row
-        align="center"
-        no-gutters
-      >
-        <v-col cols="12">
-          <div class="subtitle-1 text-center">
-            {{ weather.description }}
-          </div>
-        </v-col>
-        <v-col cols="12">
-          <div class="body-2 text-center">
-            Ощущается как: {{ formattedTemperature(main.feels_like) }}&deg;
-          </div>
-        </v-col>
-      </v-row>
-    </div>
-    <div v-else>
-      Не удалось получить данные по вашему городу
-    </div>
+  <div v-if="isLoading">
+    loading...
+  </div>
+  <div
+    v-else-if="error || !city"
+    class="d-flex align-center justify-center"
+  >
+    <span
+      class="text-center"
+      style="white-space: break-spaces;"
+      v-html="error"
+    />
+  </div>
+  <div v-else>
+    <v-row no-gutters>
+      <v-col cols="12">
+        <div class="d-flex justify-center align-center">
+          <span class="text-h2">
+            {{ formattedTemperature(main.temp) }}&deg;
+          </span>
+          <v-img
+            class="ml-2"
+            max-width="100"
+            max-height="100"
+            :src="weatherIcon"
+          />
+        </div>
+      </v-col>
+    </v-row>
+    <v-row
+      align="center"
+      no-gutters
+    >
+      <v-col cols="12">
+        <div class="subtitle-1 text-center">
+          {{ weather.description }}
+        </div>
+      </v-col>
+      <v-col cols="12">
+        <div class="body-2 text-center">
+          Ощущается как: {{ formattedTemperature(main.feels_like) }}&deg;
+        </div>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import ERRORS from '@/constants/errors.constants'
 
 export default {
   name: 'WeatherWidget',
@@ -53,6 +59,7 @@ export default {
       main: s => s.weather.main,
       weather: s => s.weather.weather,
       wind: s => s.weather.wind,
+      error: s => s.weather.error && ERRORS[`${s.weather.error}_TEXT`],
       lang: s => s.language
     }),
     weatherIcon () {

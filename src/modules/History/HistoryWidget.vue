@@ -3,17 +3,32 @@
     Загрузка....
   </div>
   <v-list
-    v-else-if="history && history.length"
+    v-else
     nav
     dense
   >
     <v-list-item-group>
       <v-list-item
+        v-if="history && !history.length"
+        inactive
+        :ripple="false"
+      >
+        <v-list-item-title>
+          <div class="body-1 text-center">
+            История поиска пуста
+          </div>
+        </v-list-item-title>
+      </v-list-item>
+      <v-list-item
         v-for="item in history"
         :key="item.id"
         @click="onItemClick(item)"
       >
-        <v-list-item-title>{{ item.name }}</v-list-item-title>
+        <v-list-item-title>
+          <span class="body-2">
+            {{ item.name }}
+          </span>
+        </v-list-item-title>
       </v-list-item>
     </v-list-item-group>
   </v-list>

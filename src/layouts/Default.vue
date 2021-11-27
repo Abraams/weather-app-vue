@@ -15,9 +15,11 @@
           <HistoryWidget @item:select="setNavigationVisible(false)" />
         </v-navigation-drawer>
 
-        <div>
-          <slot />
-        </div>
+        <v-container>
+          <div style="width: 100%;">
+            <slot />
+          </div>
+        </v-container>
       </v-main>
     </v-app>
 
@@ -55,7 +57,7 @@ export default {
   min-height: 100%;
   max-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   position: relative;
 }

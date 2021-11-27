@@ -17,13 +17,14 @@
       hide-details
       @focus="onFocus"
       @blur="onBlur"
-      @keypress.enter="onFormSubmit"
+      @keypress.enter="submitForm"
     />
 
     <v-btn
+      v-else
       key="show-search-btn"
       icon
-      @click="onSearchBtnClick"
+      @click="setInputVisible(true)"
     >
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
@@ -31,7 +32,6 @@
 </template>
 
 <script>
-import { debounce } from 'lodash-es'
 import { mapState } from 'vuex'
 
 export default {
@@ -63,9 +63,6 @@ export default {
       }
     }
   },
-  created () {
-    this.onFormSubmit = debounce(this.submitForm, 200)
-  },
   methods: {
     setInputVisible (value) {
       this.$emit('input:visible', value)
@@ -78,28 +75,18 @@ export default {
         this.setInputVisible(false)
       }
     },
-    onFormSubmit () {},
     async submitForm () {
       if (!this.query) {
         return
       }
 
-      await this.$store.dispatch('search/setQuery', { query: this.query })
-      this.setInputVisible(false)
-    },
-    onSearchBtnClick () {
-      if (this.inputVisible) {
-        this.submitForm()
+      try {
+        await this.$store.dispatch('search/setQuery', { query: this.query })
+      } catch (error) {
 
-        return
       }
-
-      this.setInputVisible(true)
+      this.setInputVisible(false)
     }
   }
 }
 </script>
-
-<style>
-
-</style>

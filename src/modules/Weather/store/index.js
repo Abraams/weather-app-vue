@@ -1,7 +1,7 @@
 import moduleMutations from './mutations.store'
 import moduleActions from './actions.store'
 
-const state = () => {
+export const state = () => {
   return {
     name: null,
     main: {
@@ -20,7 +20,8 @@ const state = () => {
       speed: null,
       deg: null
     },
-    dataFetching: false
+    dataFetching: false,
+    error: null
   }
 }
 

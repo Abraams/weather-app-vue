@@ -3,7 +3,8 @@ import moduleActions from './actions.store'
 
 const state = () => {
   return {
-    query: null
+    query: null,
+    error: null
   }
 }
 
