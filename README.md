@@ -1,5 +1,8 @@
 # weather-app-js
 
+## Demo
+[abraams.github.io/weather-app-vue](https://abraams.github.io/weather-app-vue/)
+
 ## Project setup
 ```
 npm install
